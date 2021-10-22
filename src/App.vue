@@ -1,10 +1,15 @@
 <template>
-  <Modal :product = "products[pressNumber]" :modalState = "modalState" @closeModal="modalState=false;"/>
+  <!--<div class="start end" :class="{ end : modalState }">-->
+  <transition name = "fade" >
+    <Modal :product = "products[pressNumber]" :modalState = "modalState" @closeModal="modalState=false;" />
+  </transition>
   <h1>REAL ESTATE</h1>
-  <Discount />
   <div class="menu">
     <a v-for="menu in menus" :key="menu" href="#">{{menu}}</a>
   </div>
+  <Discount v-if="showDiscount == true" :salePer = "salePer" />
+  <button @click="priceSort">가격순 정렬</button>
+  <button @click="sortBack">정렬 되돌리기</button>
   <Card :product="products[i]" v-for="(product, i) in products" :key="i" @openModal="modalState = true; pressNumber = $event"/>
 </template>
 
@@ -18,11 +23,21 @@ export default {
   name: 'App',
   data(){
     return{
+      salePer : 30,
+      showDiscount : true,
+      originalProductsData : [...data],
       pressNumber : 0,
       products : data,
       modalState : false,
       menus : ['Home', 'Products', 'About'],
     }
+  },
+  mounted(){
+    setInterval(()=>{
+      if(this.salePer != 0){
+        this.salePer--;
+      }
+    }, 1000);
   },
   components: {
     Discount,
@@ -30,11 +45,43 @@ export default {
     Card,
   },
   methods:{
-  }
+    priceSort(){
+      this.products.sort(function(a, b){
+        return a.price - b.price;
+      });
+    },
+    sortBack(){
+      this.products = [...this.originalProductsData];
+    },
+  }, 
+  
 }
 </script>
 
 <style>
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-active {
+  transition: all 2s;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-from {
+  transform: translateY(-1000px);
+}
+
+.fade-enter-active {
+  transition: all 2s;
+}
+
+.fade-enter-to {
+  transform: translateY(0px);
+}
 
 .discount{
   background: #eee;
@@ -91,6 +138,7 @@ div {
   width: 100%;
   margin-top: 40px;
 }
+
 
 
 </style>
