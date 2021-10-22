@@ -1,11 +1,11 @@
 <template>
-  <Modal :product = "products[0]" :modalState = "modalState" :pressNumber = "pressNumber"/>
-  <h1>원룸샵</h1>
+  <Modal :product = "products[pressNumber]" :modalState = "modalState" @closeModal="modalState=false;"/>
+  <h1>REAL ESTATE</h1>
   <Discount />
   <div class="menu">
     <a v-for="menu in menus" :key="menu" href="#">{{menu}}</a>
   </div>
-  <Card :product="products[i]" v-for="(product, i) in products" :key="i"/>
+  <Card :product="products[i]" v-for="(product, i) in products" :key="i" @openModal="modalState = true; pressNumber = $event"/>
 </template>
 
 <script>

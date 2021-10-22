@@ -1,9 +1,9 @@
 <template>
-  <div>
+<div>
     <img class="room-img" :src="product.image" alt="room-img">
-    <h4>{{product.title}}</h4>
+    <h4 @click="func">{{product.title}}</h4>
     <p>{{product.price}}</p>
-  </div>
+</div>
 </template>
 
 <script>
@@ -12,6 +12,11 @@ export default {
     props : {
         product : Object,
     },
+    methods : {
+        func(){
+            this.$emit('openModal', this.product.id);
+        }
+    }
 }
 </script>
 

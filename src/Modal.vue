@@ -1,20 +1,19 @@
 <template>
-  <div class="black-bg" v-if="modalState == true">
+<div class="black-bg" v-if="modalState == true" @click="$emit('closeModal')">
     <div class="white-bg">
-      <img :src="products[pressNumber].image" alt="room-img">
-      <h4>{{products[pressNumber].title}}</h4>
-      <p>{{products[pressNumber].content}}</p>
-      <p>{{products[pressNumber].price}}</p>
+    <img :src="product.image" alt="room-img">
+    <h4>{{product.title}}</h4>
+    <p>{{product.content}}</p>
+    <p>{{product.price}}</p>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
 export default {
     name : 'Modal',
     props : {
-        products : Object,
-        pressNumber : Number,
+        product : Object,
         modalState : Boolean,
     },
 }
